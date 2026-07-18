@@ -22,17 +22,36 @@ router.get("/test", (req, res) => {
         message: "Basket Route Working!"
     });
 });
+
 /**
  * @swagger
  * /baskets:
- *   get:
- *     summary: Get all baskets
- *     description: Returns all baskets.
+ *   post:
+ *     summary: Create a new basket
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - price
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Fruit Basket
+ *               price:
+ *                 type: number
+ *                 example: 500
  *     responses:
- *       200:
- *         description: List of baskets returned successfully.
+ *       201:
+ *         description: Basket created successfully
+ *       400:
+ *         description: Invalid input
  */
-
 // Get All Baskets
 router.get("/baskets", authMiddleware, getBaskets);
 

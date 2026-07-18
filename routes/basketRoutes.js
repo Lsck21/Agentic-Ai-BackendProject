@@ -22,7 +22,8 @@ router.get("/test", (req, res) => {
         message: "Basket Route Working!"
     });
 });
-
+// Get All Baskets
+router.get("/baskets", authMiddleware, getBaskets);
 /**
  * @swagger
  * /baskets:
@@ -52,8 +53,7 @@ router.get("/test", (req, res) => {
  *       400:
  *         description: Invalid input
  */
-// Get All Baskets
-router.get("/baskets", authMiddleware, getBaskets);
+
 
 // Create Basket
 router.post("/baskets", authMiddleware, validateBasket, createBasket);

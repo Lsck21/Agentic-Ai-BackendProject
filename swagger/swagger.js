@@ -10,11 +10,9 @@ const options = {
         },
        servers: [
     {
-        url: process.env.RENDER_EXTERNAL_URL
-            ? `${process.env.RENDER_EXTERNAL_URL}/api`
-            : "http://localhost:3000/api"
+        url: "https://agentic-ai-backendproject.onrender.com/api"
     }
-]
+],
         components: {
             securitySchemes: {
                 bearerAuth: {

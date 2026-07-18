@@ -22,8 +22,20 @@ router.get("/test", (req, res) => {
         message: "Basket Route Working!"
     });
 });
-// Get All Baskets
+
+/**
+ * @swagger
+ * /baskets:
+ *   get:
+ *     summary: Get all baskets
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of baskets returned successfully.
+ */
 router.get("/baskets", authMiddleware, getBaskets);
+
 /**
  * @swagger
  * /baskets:
@@ -37,9 +49,6 @@ router.get("/baskets", authMiddleware, getBaskets);
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - name
- *               - price
  *             properties:
  *               name:
  *                 type: string
@@ -50,21 +59,87 @@ router.get("/baskets", authMiddleware, getBaskets);
  *     responses:
  *       201:
  *         description: Basket created successfully
- *       400:
- *         description: Invalid input
  */
-
-
-// Create Basket
 router.post("/baskets", authMiddleware, validateBasket, createBasket);
 
-// Update Basket
+/**
+ * @swagger
+ * /baskets/{id}:
+ *   put:
+ *     summary: Update a basket
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Updated Basket
+ *               price:
+ *                 type: number
+ *                 example: 700
+ *     responses:
+ *       200:
+ *         description: Basket updated successfully
+ */
 router.put("/baskets/:id", authMiddleware, validateBasket, updateBasket);
 
-// Delete Basket
+/**
+ * @swagger
+ * /baskets/{id}:
+ *   delete:
+ *     summary: Delete a basket
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Basket deleted successfully
+ */
 router.delete("/baskets/:id", authMiddleware, deleteBasket);
 
-// Upload Basket Image
+/**
+ * @swagger
+ * /baskets/{id}/image:
+ *   post:
+ *     summary: Upload a single basket image
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Image uploaded successfully
+ */
 router.post(
     "/baskets/:id/image",
     authMiddleware,
@@ -72,6 +147,35 @@ router.post(
     uploadBasketImage
 );
 
+/**
+ * @swagger
+ * /baskets/{id}/images:
+ *   post:
+ *     summary: Upload multiple basket images
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *     responses:
+ *       200:
+ *         description: Images uploaded successfully
+ */
 router.post(
     "/baskets/:id/images",
     authMiddleware,
@@ -84,4 +188,5 @@ router.get("/hello", (req, res) => {
         message: "Hello from basket routes"
     });
 });
+
 module.exports = router;
